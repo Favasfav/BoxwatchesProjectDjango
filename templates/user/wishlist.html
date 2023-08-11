@@ -1,0 +1,112 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<!-- Include jQuery from CDN (required for Cropper.js) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<main>
+    <!-- Hero Area Start-->
+    <div class="slider-area">
+        <div class="single-slider slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Wish List</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================Cart Area =================-->
+    <section class="cart_area section_padding">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %} 
+                     
+                    {% comment %} {% if not cart_items %}
+                    <h2>YOUR CART IS EMPTY</h2>
+                    <a href="{% url 'shop' %}" class='btn btn-primary'>Continue Shopping</a> {% endcomment %}
+                    {% comment %} {% else %} {% endcomment %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in wishlist_items %}
+                          <tr>
+                              <td>
+                                  <div class="media">
+                                      <div class="d-flex">
+                                          <img src="{{ i.product.img1.url }}" alt="" />
+                                      </div>
+                                      <div class="media-body">
+                                          <p>{{ i.product.name }}</p>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5>₹{{ i.product.price }}</h5>
+                                  {% comment %} href="{% url 'remove_wishlist' i.id %}" {% endcomment %}
+                              <td>
+                                <a class="btn" href="{% url 'remove_wishlist' i.id %}" >REMOVE</a>
+                              </td> 
+                              <td>
+                                <a class="btn_1 checkout_btn_1" href="{% url 'add_cart' i.product.id %}">Add to cart</a>
+                              </td> 
+                          </tr>
+                      {% endfor %}
+                      {% comment %} {% endif %} {% endcomment %}
+                      
+                        </tbody>
+                    </table>
+                    <div class="checkout_btn_inner float-right">
+                        <a class="btn_1" href="{% url 'shop' %}">Continue Shopping</a>
+                       
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'sweetalert.html' %}
+    </section>
+    <!--================End Cart Area =================-->
+</main>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+<script>
+    setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+            setTimeout(function() {
+                alert.remove();
+            }, 550); // Adjust the duration of the fade-out effect
+        });
+    }, 5000); // Adjust the delay before the alert disappears
+ 
+</script>
+
+
+
+
+
+{% endblock content %}

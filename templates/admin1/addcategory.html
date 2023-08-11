@@ -1,0 +1,40 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories</h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method='post'>
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label"  required>Name</label>
+                            <input type="text" name='name' placeholder="Type here" class="form-control" id="product_name" />
+                        </div>
+                       
+                        
+                        <div class="mb-4">
+                            <label class="form-label" >Description</label>
+                            <textarea placeholder="Type here" name='description' class="form-control"></textarea>
+                        </div>
+                     
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Create category</button>
+                        </div>
+                    </form>
+                </div>
+                
+
+
+
+{% endblock content %}
+{% include 'sweetalert.html' %}

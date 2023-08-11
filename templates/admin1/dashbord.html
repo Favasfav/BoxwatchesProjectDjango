@@ -1,0 +1,537 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+<style>
+    .custom-select-green {
+      background-color: #28a745;
+      color: #fff;
+      border-color: #28a745;
+    }
+  </style>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Dashboard</h2>
+            <p>Whole data about your business here</p>
+        </div>
+        <div>
+            <form method="post" >
+           
+            
+                {% csrf_token %}
+                
+                <select name="report_type"class="form-select form-select-lg mb-3 custom-select-green"  aria-label=".form-select-lg example">
+                    <option value="pdf">PDF</option>
+                    <option value="csv">CSV</option>
+                </select>
+                <button class="btn btn-primary"class="text-muted material-icons md-post_add" type="submit"> Generate Report</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row">
+        
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                            class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Revenue</h6>
+                        <span>{{total_accepted_revenue}}</span>
+                        <span class="text-sm"> Shipping fees are not included </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-success-light"><i
+                            class="text-success material-icons md-local_shipping"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Orders</h6>
+                        <span>{{total_products_order}}</span>
+                        <span class="text-sm"> Excluding orders in transit </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-warning-light"><i
+                            class="text-warning material-icons md-qr_code"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Products</h6>
+                        <span> {{total_unique_products}}</span>
+                        <span class="text-sm"> In {{total_products_categories}} Categories</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-info-light"><i
+                            class="text-info material-icons md-shopping_basket"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Monthly Earning</h6>
+                        <span> {{total_revenue_thismonth}}</span>
+                        <span class="text-sm"> Based in your local time. </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                            class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Today Sales</h6>
+                        <span>{{today_sales}}</span>
+                        <span class="text-sm"> Shipping fees are not included </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                            class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Weekly Sales</h6>
+                        <span>{{weekly_sales}}</span>
+                        <span class="text-sm"> Shipping fees are not included </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Sale statistics</h5>
+                    <canvas id="myChart" height="120px"></canvas>
+                </article>
+            </div>
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Payment statistics</h5>
+                    <!-- <canvas id="transcationChart" height="120px"></canvas> -->
+                    <div id="transcationChart"></div>
+                </article>
+            </div>
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">order statistics</h5>
+                    <!-- <canvas id="transcationChart" height="120px"></canvas> -->
+                    <div id="orderChart"></div>
+                </article>
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h5 class="card-title">New Members</h5>
+                            <div class="new-member-list">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="static/admin1/assets/imgs/people/avatar-4.png" alt=""
+                                            class="avatar" />
+                                        <div>
+                                            <h6>Patric Adams</h6>
+                                            <p class="text-muted font-xs">Sanfrancisco</p>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="static/admin1/assets/imgs/people/avatar-2.png" alt=""
+                                            class="avatar" />
+                                        <div>
+                                            <h6>Dilan Specter</h6>
+                                            <p class="text-muted font-xs">Sanfrancisco</p>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="static/admin1/assets/imgs/people/avatar-3.png" alt=""
+                                            class="avatar" />
+                                        <div>
+                                            <h6>Tomas Baker</h6>
+                                            <p class="text-muted font-xs">Sanfrancisco</p>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h5 class="card-title">Recent activities</h5>
+                            <ul class="verti-timeline list-unstyled font-sm">
+                                <li class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>Today</span> <i
+                                                    class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>Lorem ipsum dolor sit amet consectetur</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="event-list active">
+                                    <div class="event-timeline-dot">
+                                        <i
+                                            class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>17 May</span> <i
+                                                    class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>Debitis nesciunt voluptatum dicta reprehenderit</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>13 May</span> <i
+                                                    class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>Accusamus voluptatibus voluptas.</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>05 April</span> <i
+                                                    class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>At vero eos et accusamus et iusto odio dignissi</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>26 Mar</span> <i
+                                                    class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>Responded to need “Volunteer Activities</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-12">
+
+
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <h4 class="card-title">Latest orders</h4>
+            <div class="row align-items-center">
+                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                    <div class="custom_select">
+                       
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <input type="date" value="02.05.2021" class="form-control" />
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="custom_select">
+                        <select class="form-select select-nice">
+                            <option selected>Status</option>
+                            <option>All</option>
+                            <option>Paid</option>
+                            <option>Chargeback</option>
+                            <option>Refund</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                
+                                <th>order Number</th>
+                                <th>#ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{order.order_number}}</td>
+                                <td><b>{{order.user.username}}</b></td>
+                                <td>{{order.user}}</td>
+                                <td>{{order.total_price}}</td>
+                                <td><span
+                                        class="badge rounded-pill {% if order.status == 'New' %}bg-success{% elif order.status == 'Accepted' %}bg-primary{% elif order.status == 'pending' %}bg-warning{% elif order.status == 'Completed' %}bg-info{% else %}bg-danger{% endif %}">
+                                        {{ order.status }}
+                                    </span></td>
+
+
+
+
+                                <td>{{order.created_at}}</td>
+                                <!-- Dropdown for Status Update -->
+                                <td>
+                                    {% if order.status != 'Cancelled' and order.status != 'Completed' %}
+                                    <label>Status Update</label>
+                                    <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown"
+                                            class="btn btn-light rounded btn-sm font-sm">
+                                            <i class="material-icons md-more_horiz"></i>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item">View detail</a>
+                                            <div class="dropdown-divider"></div>
+                                            {% for choice in order.STATUS %}
+                                            {% if choice.0 != order.status %}
+                                            <form action="{% url 'update_order_status' order.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="new_status" value="{{ choice.0 }}">
+                                                <button type="submit" class="dropdown-item">{{ choice.1 }}</button>
+                                            </form>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </td>
+                                {% endif %}
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <!-- table-responsive end// -->
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="static/admin1/assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="static/admin1/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="static/admin1/assets/js/vendors/select2.min.js"></script>
+    <script src="static/admin1/assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="static/admin1/assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="static/admin1/assets/js/vendors/chart.js"></script>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="static/'admin1/assets/css/main.css'">
+<script src=" static/'admin1/assets/js/vendors/jquery-3.6.0.min.js'"></script>
+<script src="static/'admin1/assets/js/vendors/bootstrap.bundle.min.js'"></script>
+<!-- Other scripts -->
+
+    <!-- Main Script -->
+    <script src="static/admin1/assets/js/main.js?v=1.1" type="text/javascript"></script>
+
+    
+        
+    
+    </script>
+    <script>
+        // Sample data for the chart
+        var lastSixMonths = {{ last_six_months|safe }};
+        var totalSalesData = {{ total_sales_data|safe }};
+        var  total_visitors_data={{ total_visitors_data|safe}};
+        var category_sales_data={{category_sales_data|safe}}
+        // Get the canvas element
+        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        // Initialize the line chart
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: lastSixMonths,
+                datasets: [{
+                    label: 'Total Sales',
+                    data: totalSalesData,
+                    
+                    backgroundColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(75, 192, 192)',
+                    tension: 0.3,
+                    fill: true,
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+            
+                    label: 'Total Visitors',
+                    data:  total_visitors_data,
+                    tension: 0.3,
+                    fill: true,
+                    backgroundColor: 'rgba(380, 200, 230, 0.2)',
+                    borderColor: 'rgb(380, 200, 230)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                        label: 'Category',
+                        tension: 0.3,
+                        fill: true,
+                        backgroundColor: 'rgba(148, 0, 211, 0.2)',
+                        
+                        borderColor:'rgba(148, 0, 211)',
+                        data: category_sales_data
+                    }
+
+            
+            
+            
+            
+            
+            
+            
+            ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Total Sales'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+     <script>
+        
+        var order_total = {{ order_total|safe }};
+        var labels = {{ labels|safe }};
+        // var  total_visitors_data={{ total_visitors_data|safe}};
+        // var category_sales_data={{category_sales_data|safe}}
+        // Get the canvas element
+        
+        
+        var options = {
+          series: data,
+          chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels:labels ,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#transcationChart"), options);
+        chart.render();
+      
+      
+    
+        </script>
+        <script>
+             
+        var data = {{ data|safe }};
+        var labels = {{ labels|safe }};
+        // var  total_visitors_data={{ total_visitors_data|safe}};
+        // var category_sales_data={{category_sales_data|safe}}
+        // Get the canvas element
+        
+        
+        var options = {
+          series: data,
+          chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels:labels ,
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#transcationChart"), options);
+        chart.render();
+      
+      
+    
+    
+        </script>
+        
+    {% endblock content %}

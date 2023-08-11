@@ -1,0 +1,66 @@
+{% extends 'admin1/base.html' %}
+
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories</h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" />
+                                        </div>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>  <!-- Added Actions column -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" />
+                                        </div>
+                                    </td>
+                                 
+                                    <td><b>{{ category.name }}</b></td>
+                                    <td>{{ category.description }}</td>
+                                    <td>  <!-- Moved the buttons inside the Actions column -->
+                                        <a href="{% url 'editcategory' %}?category_id={{ category.id }}" class="btn btn-md rounded font-sm btn-success">Edit</a>
+                                        <a href="{% url 'deletecategories' category.name %}" class="btn btn-md rounded font-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <form>
+                        <div class="d-grid">
+                            <a href="{% url 'addcategory' %}" class="btn btn-primary">Create</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% include 'sweetalert.html' %}

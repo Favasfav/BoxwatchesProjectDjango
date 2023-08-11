@@ -1,0 +1,171 @@
+{% extends 'admin1/base.html' %}
+
+{% block content %}
+<!-- Include Cropper.js CSS from CDN -->
+<link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css" rel="stylesheet">
+
+<!-- Include jQuery from CDN (required for Cropper.js) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Cropper.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js" defer></script>
+
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Add New Product</h2>
+                <div>
+                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                    <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>1. General info</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label" required>Product name</label>
+                                    <input type="text" name="name" placeholder="Type here" class="form-control">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" required>Description</label>
+                                    <textarea name="description" placeholder="Type here" class="form-control"
+                                        rows="4"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" required>Specification</label>
+                                    <textarea name="specification" placeholder="Type here" class="form-control"
+                                        rows="4"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Brand</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <select class="form-select" name="brand" required>
+                                                {% for brand in brands %}
+                                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div> <!-- col.// -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>category</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <select class="form-select" name="category" required>
+                                                {% for category in categories %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <!-- Replace the existing file input fields -->
+                                    <input type="file" name="img1" id="img1" class="form-control-file" required>
+                                    <input required type="hidden" name="cropped_img1" id="cropped_img1" value="">
+                                    <div class="img-container">
+                                        <img id="img1-preview" src="{{ filename.url }}" alt="Cropped Image">
+                                    </div>
+                                    <button id="crop-img1" class="btn btn-primary">Crop Image</button>
+                                    <!-- <input type="file" name="img1" id="img1" class="form-control-file" required> -->
+                                    <input type="file" name="img2" id="img2" class="form-control-file" required>
+                                    <input type="file" name="img3" id="img3" class="form-control-file" required>
+                                    <input type="file" name="img4" id="img4" class="form-control-file" required>
+
+                                    <!-- Add a preview canvas for each image -->
+
+                                    <label>Is available</label>
+                                    <input class="btn-primary" type="checkbox" name="is_available">
+                                </div> <!-- col.// -->
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <hr class="mb-4 mt-0">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>2. Pricing</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label" for="cost">Cost in Rupees</label>
+                                    <input type="text" name="price" id="cost" placeholder="₹ 00.0" class="form-control"
+                                        pattern="\d+(\.\d{1,2})?" required>
+                                    <small class="form-text text-muted">Enter the cost in the format ₹ 00.0</small>
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <div class="mb-4">
+                            <label class="form-label">Stock</label>
+                            <input type="number" name="stock" min="0" class="form-control" required>
+                        </div>
+                        <div class="mb-4">
+                            <!-- Add your other fields here -->
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        var img1 = document.getElementById('img1-preview');
+        var cropper1;
+
+        $('#img1').on('change', function(event) {
+            var files = event.target.files;
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                img1.src = e.target.result;
+                if (cropper1) {
+                    cropper1.destroy();
+                }
+                cropper1 = new Cropper(img1, {
+                    aspectRatio: 1,
+                    viewMode: 1
+                });
+            };
+
+            reader.readAsDataURL(files[0]);
+        });
+
+        $('#crop-img1').on('click', function() {
+    // Get the cropped image data
+    var croppedData = cropper1.getCroppedCanvas().toDataURL('image/jpeg');
+
+    // Update the hidden input field value with the cropped image data
+    $('#cropped_img1').val(croppedData);
+    
+    // Log the cropped data to the console
+    console.log('Cropped Data:', croppedData);
+});
+
+
+        // Similar code for other image previews and croppers...
+    });
+</script>
+
+{% endblock %}
+{% include 'sweetalert.html' %}

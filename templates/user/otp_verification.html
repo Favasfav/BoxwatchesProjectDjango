@@ -1,0 +1,116 @@
+<!-- otp_verification.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<section class="login_part section_padding ">
+  <div class="container">
+      <div class="row align-items-center">
+        
+          <div class="col-lg-6 col-md-6">
+              <div class="login_part_form">
+                  <div class="login_part_form_iner">
+                      <h3>Welcome to Boxwatches <br>
+                        Please enter the OTP sent to your email address to verify your account.</h3>
+                          <div class="login-container">
+                              <!-- {% for message in messages %}
+                                     <div class="alert alert-{{ message.tags }}">
+                                           {{ message }}
+                                           </div>
+                              {% endfor %} -->
+
+                                          </div>
+                         <form method="POST" action="{% url 'otp_verification' %}">
+                            {% csrf_token %}
+                                            
+                                {% if otp_invalid %}
+                                      <p class="text-danger">Invalid OTP. Please try again.</p>
+                                {% endif %}
+                          <div class="col-md-12 form-group p_star">
+                              <input type="text" class="form-control" id="otp" name="otp" 
+                                  placeholder=" Enter otp" required>
+                          </div>
+                          
+                          
+                              <button type="submit" value="submit" class="btn_3">
+                                Verify OTP
+                              </button>
+                              
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+    {% comment %} <div class="container">
+        <h2>OTP Verification</h2>
+        <p>Please enter the OTP sent to your email address to verify your account.</p>
+        <form method="POST" action="{% url 'otp_verification' %}">
+            {% csrf_token %}
+            
+            {% if otp_invalid %}
+                <p class="text-danger">Invalid OTP. Please try again.</p>
+            {% endif %}
+            <div class="form-group">
+                <label for="otp">OTP:</label>
+                <input type="text" class="form-control" id="otp" name="otp" required>
+                <!DOCTYPE html>
+<html>
+<head>
+  <title>OTP Verification with Blue Boundary</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="otp-container blue-border">
+    <input type="text" class="otp-input" maxlength="1" />
+    <input type="text" class="otp-input" maxlength="1" />
+    <input type="text" class="otp-input" maxlength="1" />
+    <input type="text" class="otp-input" maxlength="1" />
+  </div>
+</body>
+</html>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Verify OTP</button>
+        </form>
+    </div>
+    <style> 
+       
+.otp-container {
+  position: relative;
+  display: inline-block;
+}
+
+.otp-input {
+  width: 40px; /* Adjust the width based on your design */
+  height: 40px; /* Adjust the height based on your design */
+  font-size: 18px; /* Adjust the font size based on your design */
+  text-align: center;
+  border: 2px solid blue; /* Set the blue boundary for the OTP input field */
+  border-radius: 8px; /* Adjust the border-radius based on your design */
+  margin-right: 10px; /* Add spacing between input fields */
+}
+
+/* Optionally, you can style the OTP container with a blue boundary */
+.otp-container.blue-border {
+  border: 2px solid blue;
+  border-radius: 8px;
+  padding: 10px; /* Add padding to the container to make it visually distinct */
+}
+
+
+.otp-input:focus {
+  outline: none;
+  border-color: blue;
+  /* You can also add a box-shadow to make the focused state more prominent */
+  box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
+}
+
+    </style> {% endcomment %}
+{% endblock %}
+{% include 'sweetalert.html' %}

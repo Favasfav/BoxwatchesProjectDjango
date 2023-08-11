@@ -1,0 +1,115 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<style>
+  /* Custom styles for the Order Details table */
+  .order_list {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .order_list_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .order_list_table th,
+  .order_list_table td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .order_list_table th {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .order_list_table td {
+    font-size: 14px;
+  }
+
+  .order_list_table tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+
+  .order_details_link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .order_status {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 20px;
+    width: fit-content;
+  }
+
+  .order_status.bg-success {
+    background-color: #1e8449;
+    color: #fff;
+  }
+
+  .order_status.bg-primary {
+    background-color: #0c83e2;
+    color: #fff;
+  }
+
+  .order_status.bg-warning {
+    background-color: #ff9800;
+    color: #000;
+  }
+
+  .order_status.bg-info {
+    background-color: #17a2b8;
+    color: #fff;
+  }
+
+  .order_status.bg-danger {
+    background-color: #d32f2f;
+    color: #fff;
+  }
+</style>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="order_list">
+      <h3>Order Details</h3>
+      <table class="order_list_table">
+        <thead>
+          <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Total</th>
+            <th scope="col">Details</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td><span>{{ order.order_number }}</span></td>
+            <td><span>₹{{ order.total_price }}</span></td>
+            <td>
+              <a class="order_details_link" href="{% url 'orderdetail' order.id %}">View Details</a>
+            </td>
+            <td>
+              <span class="order_status {% if order.status == 'New' %}bg-success{% elif order.status == 'Accepted' %}bg-primary{% elif order.status == 'pending' %}bg-warning{% elif order.status == 'Completed' %}bg-info{% else %}bg-danger{% endif %}">
+                {{ order.status }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}

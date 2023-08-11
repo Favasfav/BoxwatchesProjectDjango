@@ -1,0 +1,326 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<style>
+  .address-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allows the address cards to wrap to the next line if there's not enough space */
+    gap: 5;
+    /* Adjust the gap between the address cards as needed */
+  }
+
+  .address-card {
+    flex: 1 0 50%;
+    max-width: 300px;
+    padding: 20px;
+    margin: 8px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    width: calc(50% - 10px);
+  }
+</style>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+
+<main>
+  <!-- Hero Area Start-->
+  <div class="slider-area">
+    <div class="single-slider slider-height2 d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="hero-cap text-center">
+              <h2>Checkout</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--================Checkout Area =================-->
+
+  <section class="checkout_area section_padding">
+    <div class="container">
+
+      <div class="cupon_area">
+        <div class="col-lg-4">
+        <div class="check_title">
+          <h2>
+            Have a coupon?
+
+          </h2>
+        </div>
+        <!-- <div class="messages">
+           {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+          {% endfor %} -->
+       <!-- </div> -->
+        <div class="container">
+          <form method="POST" action="{% url 'checkout' cart.id %}">
+            {% csrf_token %}
+            <input type="text" name="coupon_code" placeholder="Enter coupon code" />
+            <button type="submit" class="tp_btn">Apply Coupons</button>
+
+        </div>
+      </div>
+        </form>
+        <form method="POST" action="{% url 'create_order' cart.id %}">
+          {% csrf_token %}
+          <br>
+          <br>
+          <div class="billing_details">
+            <div class="row">
+              <div class="col-lg-8">
+                <h3>Billing Details</h3>
+                <div class="col-lg-12">
+                  <div>
+                    
+                      <div class="address-cards-container">
+                        {% for i in adresses %}
+                        <div class="address-card">
+                          <ul>
+                            <li>
+                              <div class="col-lg-12">
+
+                                <p>Full Name: {{ i.fullname }}</p>
+                                <p>Phone Number: {{ i.phoneno }}</p>
+                                <p>House Number: {{ i.house_no }}</p>
+                                <p>Street: {{ i.street }}</p>
+                                <p>District: {{ i.district }}</p>
+                                <p>State: {{ i.state }}</p>
+                                <p>Country: {{ i.country }}</p>
+                                <p>Postcode: {{ i.postcode }}</p>
+
+                                <div class="radion_btn">
+                                  <input type="radio" id="address{{ forloop.counter }}" name="billing_address"
+                                    value="{{ i.id }}" {% if forloop.first %}checked{% endif %}>
+                                  <label for="address{{ forloop.counter }}">Use this address</label>
+                                </div>
+
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        {% endfor %}
+
+                      </div>
+                      {% comment %}
+                    </form> {% endcomment %}
+                  </div>
+
+                </div>
+
+
+
+
+                <a class="btn" href="{% url 'addadresscheckout' cart.id %}">Add Address</a>
+
+              </div>
+
+              <div class="col-lg-4">
+
+
+                <div class="order_box">
+                  <h2>Your Order</h2>
+                  <ul class="list">
+                    <li>
+                      <a href="#">
+                        Product
+                        <span>Product price</span>
+                      </a>
+                    </li>
+                    {% for item in cart_items %}
+                    <li>
+                      <a href="#">
+                        {{ item.product.name }}
+                        <span class="middle">x {{ item.quantity }}</span>
+                        <span class="last">{{item.product.price }}</span>
+                        <input type="hidden" id="cart_id" value='{{cart.id}}'>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+
+                  <ul class="list list_2">
+
+                    <li>
+                      <a href="#">
+                        Coupon discount
+                        <span>{{ coupon.discount_price }}</span>
+                        <input name="coupon" type="hidden" value="{{coupon}}">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Shipping
+                        <span>Flat rate: {{ shipping_charge }}</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Tax
+                        <span> {{ tax }} </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Total
+                        <span>{{ total }}</span>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="payment_item">
+                    <div class="radion_btn">
+                      <input type="radio" id="f-option5" name="selector" />
+                      <label for="f-option5">Cash payments</label>
+                      <div class="check"></div>
+                    </div>
+                    
+                  
+                  <input name="payment_mode" type="hidden" value="COD">
+                  <!-- Hidden input field for payment_mode -->
+                  <button class="btn_3" type="submit">Proceed to COD</button>
+                  <button class="btn_3 mt-3 payWithRazorpay " type="button">Proceed to Razor Pay</button>
+        </form>
+
+
+
+
+
+      </div>
+    </div>
+
+    {% comment %} <a class="btn_3 mt-3 payWithRazorpay " href="{% url 'proceed_to_pay' %}">Proceed to Pay</a>
+    {%endcomment %}
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+    </div>
+    </div>
+  </section>
+</main>
+
+
+
+
+
+{% endblock content %}
+
+
+
+{% block script %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+{% include 'sweetalert.html' %}
+
+<script src="/static/user/assets/js/checkout.js"></script>
+
+
+
+<!-- Add this script tag to include the Razorpay script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  // Your jQuery and other JavaScript code here
+  $(document).ready(function () {
+    $('.payWithRazorpay').click(function (e) {
+      e.preventDefault();
+      var selectedAddressId = $("input[name='billing_address']:checked").val(); // Get the selected address ID
+      var cart_id = $('#cart_id').val(); // Get the cart ID from the hidden input field
+      var coupon = $("input[name='coupon']").val(); 
+      var token = $("input[name='csrfmiddlewaretoken']").val();
+      // Get the CSRF token
+
+      console.log("Selected Address ID:", selectedAddressId);
+      console.log("Cart ID:", cart_id);
+      console.log("coupon:", coupon);
+      // Your AJAX code here...
+      $.ajax({
+        method: "POST",
+        url: "{% url 'proceedtopay' %}",
+        data: {
+          coupon: coupon,
+          csrfmiddlewaretoken: token
+        },
+        success: function (response) {
+          // Now you have the updated response including total calculation
+          var options = {
+            "key": "rzp_test_pFXzR15Q6lME0K",
+            "amount": response.total1 * 100,
+            "currency": "INR",
+            "name": "Box Watches",
+            "description": "Thank You! You choose the Best one",
+            "image": "/static/user/assets/img/logo/logoBoxwatches.jpg",
+            "handler": function (response) {
+              console.log("Razorpay Payment ID:", response.razorpay_payment_id);
+
+              var data = {
+                billing_address: selectedAddressId,
+                payment_mode: "Razorpay",
+                payment_id: response.razorpay_payment_id,
+                cart_id: cart_id,
+                coupon: coupon,
+                csrfmiddlewaretoken: token
+              };
+              $.ajax({
+                method: "POST",
+                url: "{% url 'create_order' cart.id  %}", // Use cart_id variable here
+                data:data,
+                success: function (response) {
+                  // Order creation success handling here...
+                  console.log("Order created successfully:", response);
+
+                  Swal.fire("Congratulations!", response.status, "success").then((value) => {
+                    window.location.href = '/profileorders';
+                  });
+                },
+                error: function (error) {
+                  // Order creation error handling here...
+                  console.log("Error creating order:", error);
+                  alert("Error creating order. Please try again later.");
+                }
+              });
+            },
+            "prefill": {
+              "name": selectedAddressId.fullname, // Provide the default name (you can set this dynamically based on the address)
+              "contact": selectedAddressId.phoneno // Provide the default contact number (you can set this dynamically based on the address)
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+        },
+        error: function (error) {
+          // Error handling for getting the total amount
+          console.log("Error retrieving total amount:", error);
+          alert("Error retrieving total amount. Please try again later.");
+        }
+      });
+    });
+  });
+  $.ajaxSetup({
+    headers: {
+      "X-CSRFToken": token,
+    },
+  });
+  
+
+</script>
+{% endblock script %}

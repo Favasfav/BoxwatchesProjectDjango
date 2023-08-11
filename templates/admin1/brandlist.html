@@ -1,0 +1,37 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Brand</h2>
+            <p>Brand and vendor management</p>
+        </div>
+        <div>
+            <a href="{% url 'addbrand' %}" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Add New Brand</a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for brand in brands %}
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ brand.image.url }}" class="card-img-top" alt="Logo">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ brand.name }}</h5>
+                            <h5 class="card-title">{{ brand.description }}</h5>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'editbrand' %}?brand_id={{ brand.id }}" class="btn btn-md rounded font-sm btn-success">Edit</a>
+
+                                <a href="{% url 'deletebrand' brand.name %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% include 'sweetalert.html' %}

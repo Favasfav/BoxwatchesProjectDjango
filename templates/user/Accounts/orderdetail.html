@@ -1,0 +1,175 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<div class="checkout_btn_inner float-right">
+  <br>
+  <br>
+  <form method="POST" >
+    {% csrf_token %}
+  <select name="report_type"class="form-select form-select-lg mb-3 custom-select-green"  aria-label=".form-select-lg example">
+    <option value="pdf">PDF</option>
+    <option value="csv">CSV</option>
+</select>
+
+
+<button class="btn_1 btn-primary"class="text-muted material-icons md-post_add" type="submit"> Generate Report</button>
+</form>
+<br>
+<br>
+</div>
+<section class="cart_area section_padding">
+  <div class="container">
+    <div class="cart_inner">
+      <div class="table-responsive">
+        <div class="card_bg">
+        <table class="table">
+          
+          <thead>
+            <tr>
+              
+              <th scope="col">Product</th>
+              <th scope="col" >Created Date and Time</th>
+              <th scope="col" >Payment Mode</th>
+              <th scope="col" >Delivery To</th>
+              <th scope="col">Price</th>
+               <!-- <th scope="col">Tax</th>  -->
+              
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in order_products %}
+            <tr>
+              
+              <td>
+                <div class="media">
+                  <div class="d-flex">
+                    <img src="{{ item.product.img2.url }}" alt="" />
+                  </div>
+                  <div class="media-body">
+                    <p>{{ item.product.name }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h5>{{ item.created_at }}</h5>
+              </td>
+              <td>
+                <h5>{{ item.payment.payment_mode }}</h5>
+              </td>
+              <td>
+                <h5>{{ adress.house_no }}</h5> <h5>{{ adress.street }}</h5> <h5>Pin No:{{ adress.postcode }}</h5>
+              </td>
+              <td>
+                <h5>{{ item.product.price }}</h5>
+              </td>
+            </div>
+              <!-- <td>
+                <h5>{{ tax }}</h5>
+              </td>  -->
+
+              <td>
+                <h5>{{ item.quantity }}</h5>
+              </td>
+              <td>
+                <h5>{{ item.sub_total }}</h5>
+              </td>
+              
+              
+              <td>
+                <h5></h5>
+              </td>
+              {% endfor %}
+            </tr>
+            <tr>
+              
+            </tr>
+           
+            
+            
+          </tbody>
+        </table>
+        <div class="order-summary">
+          <p class="order-total">Order Id: {{ order.order_number }}</p>
+          <p class="order-total">Total Amount: {{ total1 }}</p>
+          <p class="order-total">Coupon Discount: {{ coupon_discount }}</p>
+          <p class="order-total">Tax : {{tax}}</p>
+          <p class="order-total">shipping charge : 50</p>
+          <p class="order-total">Grand Total(Including Tax): {{ total2 }}</p>
+      </div>
+     
+        <div class="checkout_btn_inner float-right">
+          <a class="btn_1" href="{% url 'shop' %}">Continue Shopping</a>
+          <br>
+          <br>
+          <a class="btn_1" href="{% url 'cancelorder' order.id %}">Cancel order</a>
+          <br>
+          <br>
+          
+          <a class="btn_1" href="{% url 'profileorders'  %}">Back</a>
+         
+        </div>
+      </div>
+    </div>
+   
+      
+    
+</section>
+
+      <style>
+         .custom-select-green {
+      background-color: #28a745;
+      color: #fff;
+      border-color: #28a745;
+    }
+     .card_bg{
+      background-color: #f9f3f3fa;
+
+
+     }   
+    .order-details-table {
+        margin-bottom: 30px;
+    }
+
+    .order-details-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-details-table th,
+    .order-details-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .order-details-table th {
+        font-weight: bold;
+    }
+
+    .product-details {
+        display: flex;
+        align-items: center;
+    }
+
+    .product-info {
+        margin-left: 10px;
+    }
+
+    .order-summary {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .order-summary p {
+        margin: 5px 0;
+    }
+
+    .order-summary .order-total {
+        font-weight: bold;
+    }
+</style>
+  
+     {% endblock content %} 

@@ -1,0 +1,219 @@
+{% extends 'user/base.html' %}
+{% block content %}
+<style>
+
+  .address-cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows the address cards to wrap to the next line if there's not enough space */
+    gap: 5; /* Adjust the gap between the address cards as needed */
+  }
+  .address-card {
+    flex: 1 0 50%;
+    max-width: 300px;
+    padding: 20px;
+    margin: 8px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    width: calc(50% - 10px);
+}
+</style>
+
+
+
+
+
+
+
+
+
+<main>
+  <!-- ... Your existing code ... -->
+  
+  <section class="checkout_area section_padding">
+    <div class="container">
+
+
+
+
+       <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+       </div>
+
+
+
+     
+       <div class="cupon_area">
+        <div class="check_title">
+          <h2>
+            Have a coupon?
+          </h2>
+        </div>
+        
+              <form method="POST" action="{% url 'checkout' cart.id %}">
+                {% csrf_token %}
+                <div class="container">
+                  <input type="text" name="coupon_code" placeholder="Enter coupon code" />
+                  <button type="submit" class="tp_btn">Apply Coupons</button>
+                </div>
+              </form>
+       </div>        
+
+        <br>
+        <br>
+        <div class="billing_details">
+          <div class="row">
+            <div class="col-lg-8">
+              <h3>Billing Details</h3>
+              <a class="btn" href="{% url 'addadress' %}">Add Address</a>
+                      <div class="col-lg-12">
+                        <form method="POST">
+                          <div class="address-cards-container">
+                 
+                            {% for i in adresses %}
+                              <div class="address-card">
+                                <ul>
+                                  <li>
+                                    <div class="col-lg-12">
+                                      <p>Full Name: {{ i.fullname }}</p>
+                                      <p>Phone Number: {{ i.phoneno }}</p>
+                                      <p>House Number: {{ i.house_no }}</p>
+                                      <p>Street: {{ i.street }}</p>
+                                      <p>District: {{ i.district }}</p>
+                                      <p>State: {{ i.state }}</p>
+                                      <p>Country: {{ i.country }}</p>
+                                      <p>Postcode: {{ i.postcode }}</p>
+                                      <div class="radion_btn">
+                                        <input type="radio" id="address{{ forloop.counter }}" name="billing_address" value="{{ i.id }}" {% if forloop.first %}checked{% endif %}>
+                                        <label for="address{{ forloop.counter }}">Use this address</label>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            {% endfor %}
+                          </div>
+                        </form>
+                      </div>
+              </div>
+            
+
+
+
+
+
+
+             <div class="col-lg-4">
+              <form method="POST" action="{% url 'create_order' cart.id %}">
+                {% csrf_token %}
+                <div class="order_box">
+                     <h2>Your Order</h2>
+                     <ul class="list">
+                        <li>
+                           <a href="#">
+                         Product
+                              <span>Total</span>
+                           </a>
+                        </li>
+                         {% for item in cart_items %}
+                        <li>
+                        <a href="#">
+                        {{ item.product.name }}
+                        <span class="middle">x {{ item.quantity }}</span>
+                        <span class="last">{{ item.product.price }}</span>
+                        </a>
+                        </li>
+                        {% endfor %}
+                     </ul>
+              
+                     <ul class="list list_2">
+                
+                        <li>
+                           <a href="#">
+                              Coupon discount
+                              <span>{{ coupon.discount_price }}</span>
+                            </a>
+                        </li>
+                        <li>
+                        <a href="#">
+                          Shipping
+                          <span>Flat rate: {{ shipping_fee }}</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="#">
+                          Tax
+                        <span> {{ tax }}  </span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="#">
+                          Total
+                          <span>{{ total }}</span>
+                        </a>
+                        </li>
+                     </ul>
+                  <div class="payment_item">
+                     <div class="radion_btn">
+                          <input type="radio" id="f-option5" name="selector" />
+                          <label for="f-option5">Check payments</label>
+                       <div class="check"></div>
+                  </div>
+                          <p>
+                            Please send a check to Store Name, Store Street, Store Town,
+                            Store State / County, Store Postcode.
+                            </p>
+                 
+                 <div class="payment_item active">
+                     <div class="radion_btn">
+                            <input type="radio" id="f-option6" name="selector" />
+                            <label for="f-option6">Paypal</label>
+                            <img src="static/user/assets/img/product/single-product/card.jpg" alt="" />
+                            <div class="check"></div>
+                            </div>
+                            <p>
+                            Please send a check to Store Name, Store Street, Store Town,
+                            Store State / County, Store Postcode.
+                            </p>
+                     </div>
+                      {% comment %} <div class="creat_account">
+                      <input type="checkbox" id="f-option4" name="selector" />
+                      <label for="f-option4">I’ve read and accept the</label>
+                      <a href="#">terms & conditions*</a>
+                      </div> {% endcomment %}
+                      <button class="btn_3" type="submit">Proceed to COD</button>
+                  </div>  
+                
+                {% comment %} <button class="btn_3" type="submit">Proceed to COD</button> {% endcomment %}
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+  </section>
+</main>
+
+
+
+
+
+<script>
+  // Assuming you have included jQuery library
+  $(document).ready(function() {
+    $("input[name='billing_address']").change(function() {
+      if ($(this).is(":checked")) {
+        var selectedAddressId = $(this).val();
+        var selectedAddressLabel = $("label[for='" + $(this).attr('id') + "']").text();
+        console.log("Selected Address ID: " + selectedAddressId);
+        console.log("Selected Address Label: " + selectedAddressLabel);
+        // Perform further actions with the selected address
+      }
+    });
+  });
+</script>
+
+{% endblock content %}

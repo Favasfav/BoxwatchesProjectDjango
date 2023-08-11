@@ -1,0 +1,158 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order List</h2>
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Status</option>
+                        <option>Active</option>
+                        <option>Disabled</option>
+                        <option>Show all</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Show 20</option>
+                        <option>Show 30</option>
+                        <option>Show 40</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <!-- {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %} -->
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{order.order_number}}</td>
+                            <td><b>{{order.user.username}}</b></td>
+                            <td>{{order.user}}</td>
+                            <td>{{order.total_price}}</td>
+                            <td><span class="badge rounded-pill {% if order.status == 'New' %}bg-success{% elif order.status == 'Accepted' %}bg-primary{% elif order.status == 'pending' %}bg-warning{% elif order.status == 'Completed' %}bg-info{% else %}bg-danger{% endif %}">
+                                {{ order.status }}
+                            </span></td>
+
+
+
+
+                            <td>{{order.created_at}}</td>
+                        <!-- Dropdown for Status Update -->
+<td>
+    {% if order.status != 'Cancelled' and order.status != 'Completed' %}
+    <label>Status Update</label>
+    <div class="dropdown">
+        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+            <i class="material-icons md-more_horiz"></i>
+        </a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item">View detail</a>
+            <div class="dropdown-divider"></div>
+            {% for choice in order.STATUS %}
+                {% if choice.0 != order.status %}
+                    <form action="{% url 'update_order_status' order.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="new_status" value="{{ choice.0 }}">
+                        <button type="submit" class="dropdown-item">{{ choice.1 }}</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</td>
+
+<!-- Dropdown for Order Details and Cancel Order -->
+<td class="text-end">
+    <div class="dropdown">
+        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+            <i class="material-icons md-more_horiz"></i>
+        </a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'orderdetails' order.id %}">View detail</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger" href="{% url 'cancel_order' order.id %}">Cancel Order</a>
+        </div>
+    </div>
+    <a href="{% url 'orderdetails' order.id %}" class="btn btn-md rounded font-sm">Detail</a>
+    <!-- dropdown //end -->
+</td>
+
+                            
+                            {% endif %}
+                            {% endfor %} 
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            <!-- table-responsive //end -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                <li class="page-item"><a class="page-link" href="#">02</a></li>
+                <li class="page-item"><a class="page-link" href="#">03</a></li>
+                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">16</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+</section>
+
+<script>
+    setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+            setTimeout(function() {
+                alert.remove();
+            }, 550); // Adjust the duration of the fade-out effect
+        });
+    }, 5000); // Adjust the delay before the alert disappears
+</script>
+
+{% endblock content %}
+{% include 'sweetalert.html' %}

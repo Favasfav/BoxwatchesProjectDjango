@@ -1,0 +1,51 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Add Coupon</h2>
+            <p>Add</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Coupon" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method='post' >
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label"  required>Coupon Code</label>
+                            <input type="text" name='coupon_code' placeholder="Type here" class="form-control" id="product_name" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label"  required>Discount price</label>
+                            <input type="text" name='discount_price' placeholder="Type here" class="form-control" id="product_name" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label"  required>Minimum Amount</label>
+                            <input type="text" name='minimum_amount' placeholder="Type here" class="form-control" id="product_name" />
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="expiry_date" class="form-label">Expiry Date</label>
+                            <input type="date" name="expiry_date" required class="form-control" id="expiry_date" />
+                        </div>
+                        
+                        
+                        
+                        
+                     
+                        <div class="d-grid">
+                            <button  class="btn btn-primary">Create category</button>
+                        </div>
+                    </form>
+                </div>
+                
+
+
+
+{% endblock content %}
+{% include 'sweetalert.html' %}

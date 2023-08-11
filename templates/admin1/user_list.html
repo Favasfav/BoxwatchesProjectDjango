@@ -1,0 +1,81 @@
+{% extends 'admin1/base.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">User List</h2>
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col col-check flex-grow-0">
+                    <div class="form-check ms-2">
+                        <input class="form-check-input" type="checkbox" value="" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="card-body">
+            {% for user in users %}
+            <article class="itemlist">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+                        <a class="itemside" href="#">
+                             <div class="left">
+                                <img src="static/admin1/assets/imgs/people/avatr-1.png" class="img-sm img-thumbnail" alt="Item" />
+                            </div> 
+                            <div class="info">
+                                <li>{{ user.username }}</li>
+                            </div>
+                            <div class="info">
+                                <li>{{ user.email }}</li>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-status"></div>
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                        
+                        {% if user.is_active %}
+                       
+                        <a href="{% url 'block_unblock_user' user.id %}" class="btn btn-md rounded font-sm" style="background-color: green; color: white;">block</a>
+                        {% else %}
+                        <a href="{% url 'block_unblock_user' user.id %}" class="btn btn-md rounded font-sm" style="background-color: red; color: white;">UnBlock</a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pagination-area mt-30 mb-50">
+        <!-- Pagination code... -->
+    </div>
+</section>
+<style>
+    .block-btn {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .block-btn.unblock {
+        background-color: red;
+    }
+
+    .block-btn:hover {
+        background-color: darkgreen;
+    }
+
+    .block-btn.unblock:hover {
+        background-color: darkred;
+    }
+</style>
+{% endblock %}
+{% include 'sweetalert.html' %}

@@ -1,0 +1,159 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<main>
+    <!-- Hero Area Start-->
+    <div class="slider-area ">
+        <!-- <div class="single-slider slider-height2 d-flex align-items-center"> -->
+        <div class="container">
+            <!-- <div class="row"> -->
+            <div class="col-xl-12">
+                <div class="hero-cap text-center">
+                    <h2>Watch Shop</h2>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+        <!-- </div> -->
+    </div>
+    <!-- Hero Area End-->
+    <!-- Latest Products Start -->
+    <section class="popular-items latest-padding">
+        <div class="container">
+            <div class="row product-btn justify-content-between mb-40">
+                <div class="properties__button">
+                    <!--Nav Button  -->
+
+                    <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=price_high_to_low">Price
+                        high to low</a>
+                    <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=low_to_high">Price
+                        low to high</a>
+                    <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=below_5000 ">Price
+                        Below 5000</a>
+
+                    <!-- <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="{% url 'home' %}" role="tab" aria-controls="nav-home" aria-selected="true">Newest Arrivals</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="{% url 'shop' %}?sort=price_high_to_low" role="tab" aria-controls="nav-profile" aria-selected="false">Price high to low</a>
+                                
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="{% url 'shop' %}?sort=most_popular" role="tab" aria-controls="nav-contact" aria-selected="false">Most popular</a> -->
+                </div>
+                <div class="custom-select-container">
+                    <form action="{% url 'shop' %}" method="get">
+                        <label for="select1" class="custom-select-label">Category:</label>
+                        <select name="category" id="select1">
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="select1" class="custom-select-label">Brand:</label>
+                        <select name="brand" id="select1">
+                            <option value="">Select a Brand</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Filter</button>
+                    </form>
+                    
+                </div>
+                <!-- <div class="custom-select-container">
+                    <form action="{% url 'shop' %}" method="get">
+                        <label for="select1" class="custom-select-label">Brand:</label>
+                        <select name="category" id="select1">
+                            <option value="">Select a Brand</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Filter</button>
+                    </form>
+                    
+                </div> -->
+
+                </nav>
+                <!--End Nav Button  -->
+            </div>
+            <!-- Grid and List view -->
+            <div class="grid-list-view">
+            </div>
+            <!-- Select items -->
+
+        </div>
+        <!-- Nav Card -->
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.name %}
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-popular-items mb-50 text-center">
+                            <div class="popular-img">
+                                <a href="#"><img src="{{ product.img1.url }}" alt=""></a>
+                                <div class="img-cap">
+                                    <span><a href="{% url 'add_cart' product.id %}" class="add-to-cart-btn">Add to
+                                            Cart</a>
+                                    </span>
+                                </div>
+                                <div class="favorit-items">
+                                    <span class="flaticon-heart"></span>
+                                </div>
+                            </div>
+                            <div class="popular-caption">
+                                <h3><a href="{% url 'product_details' product.id %}">{{ product.name }}</a></h3>
+                                <span>{{ product.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Card two -->
+
+        </div>
+        </div>
+        <!-- End Nav Card -->
+        </div>
+    </section>
+    <!-- Latest Products End -->
+    <!--? Shop Method Start-->
+    <div class="shop-method-area">
+        <div class="container">
+            <div class="method-wrapper">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-package"></i>
+                            <h6>Free Shipping Method</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-unlock"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="single-method mb-40">
+                            <i class="ti-reload"></i>
+                            <h6>Secure Payment System</h6>
+                            <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Method End-->
+</main>
+{% endblock content %}
+{% include 'sweetalert.html' %}

@@ -1,0 +1,140 @@
+{% extends 'user/base.html' %}
+{% block content %}
+    <style>
+      .address-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .address-item {
+        margin-bottom: 20px;
+      }
+      
+      .form-box {
+        border: 1px solid #ccc;
+        padding: 15px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      .form-field {
+        margin: 0;
+        font-size: 14px;
+      }
+      
+      .form-field p {
+        margin-bottom: 10px;
+      }
+      
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #337ab7;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      
+      .btn:hover {
+        background-color: #23527c;
+      }
+      
+      .card {
+        border: 1px solid #ccc;
+        padding: 15px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      
+      .card p {
+        margin: 0;
+        font-size: 14px;
+      }
+      
+      .card p:not(:last-child) {
+        margin-bottom: 10px;
+        .btn {
+          background-color: lightgrey;
+          color: red;
+          font-weight: lighter;
+          padding: 5px 10px;
+          border-radius: 3px;
+          text-decoration: none;
+          display: inline-block;
+          margin-right: 5px;
+        }
+        
+        .btn-edit {
+          background-color: lightgrey;
+          color: red;
+        }
+        
+        .btn-delete {
+          background-color: lightgrey;
+          color: red;
+        }
+        
+      }
+      </style>
+      
+
+   
+    <main>
+        <!-- Hero Area Start-->
+        <div class="slider-area ">
+            <div class="single-slider slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2> Address </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hero Area End-->
+
+        <!-- Signup Section -->
+        <div class="col-lg-6 col-lx-4">
+          <a class="btn_1" href="{% url 'addadress' %}"> Add Address</a>
+          </div>
+          <ul class="address-list">
+            {% for address in addresses %}
+            <li class="address-item">
+              <div class="card">
+                <p>Full Name: {{ address.fullname }}</p>
+                <p>Phone Number: {{ address.phoneno }}</p>
+                <p>House Number: {{ address.house_no }}</p>
+                <p>Street: {{ address.street }}</p>
+                <p>District: {{ address.district }}</p>
+                <p>State: {{ address.state }}</p>
+                <p>Country: {{ address.country }}</p>
+                <p>Postcode: {{ address.postcode }}</p>
+                <div class="buttons">
+                   <a href="{% url 'edit_address' address.id %}" class="btn_1">Edit</a>
+                  <a href="{% url 'delete_address' address.id %}" class="btn_1">Delete</a>
+                </div>
+              </div>
+             
+            </li>
+          {% endfor %}
+          <div class="d-flex justify-content-center">
+            <div class="checkout_btn_inner">
+                <a class="btn_1" href="{% url 'profile'  %}">Back to Profile</a>
+                <br>
+                <br>
+                {% comment %} <a class="btn_1" href="{% url 'checkout' cart.id  %}">Back To checkout</a> {% endcomment %}
+            </div>
+        </div>
+        
+          <br>
+          <br>
+          
+          {% endblock content %}
+
+          {% include 'sweetalert.html' %}
