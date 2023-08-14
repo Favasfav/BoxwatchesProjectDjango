@@ -10,23 +10,22 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core import serializers
 from django.contrib import messages
+from decimal import Decimal
 
 @login_required(login_url='login_user')
 def create_order(request,cart_id):
-
+    print('hai')
     user=request.user
+    
     print('user1111',user) 
     print('cart_id',cart_id)
     
     
-    if request.method =='POST':
-        print('haifgdghdddddhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-        
-             
+    if request.method =='POST':   
         cart = Cart.objects.filter(id=cart_id)
-                
-        
-        coupon_code = request.POST.get('coupon_code')
+        # if if 'form1' in request.POST:
+        coupon_code = request.POST.get('coupon')
+        # coupon_code = request.POST.get('coupon_code')
         print('-----coupon_code---',coupon_code)
         try:
         # Attempt to fetch the coupon object based on the provided code
@@ -34,6 +33,7 @@ def create_order(request,cart_id):
         except Coupons.DoesNotExist:
         # Handle the case when the coupon with the provided code does not exist
             coupon_obj = None 
+        print('coupon-------------',coupon_obj)    
         for i in cart:
              x=i.user_id
         print("fdgr",cart)
@@ -98,11 +98,31 @@ def create_order(request,cart_id):
              shipping_charge=0   
             
         grand_total = grand_total + shipping_charge
-         
         payment_mode = request.POST.get('payment_mode')
+        print('-------payment_mode----',payment_mode)
+        if payment_mode =='Wallet' or payment_mode == 'Razorpay':
+            pass
+        else:
+            payment_mode='COD'    
+            
+        print('-------payment_mode----',payment_mode)
+        if payment_mode == 'Wallet':
+            wallet_balance = user2.wallet
+            if grand_total <= wallet_balance:
+                payment_mode = 'Wallet'
+                wallet_balance -= float(grand_total)
+                user2.wallet = wallet_balance
+                user2.save()  
+            else:
+                messages.error(request, "Insufficient wallet balance.")
+                return redirect('checkout')  
+              
+        
+         
+        
         print('------payment mode---->',payment_mode)
         payment_id = None
-        print('payment_mode',payment_mode)
+       
         if payment_mode == 'Razorpay':
             payment_id = request.POST.get('payment_id')
             # print('------------------------------>>>>>>',payment_id)
@@ -115,7 +135,7 @@ def create_order(request,cart_id):
                 user=user2,
                 payment_id=payment_id,
                 payment_mode=payment_mode,
-                amount_paid=total1,
+                amount_paid=grand_total,
                 status='new'
             )
             # Save the payment object to the database
@@ -173,7 +193,8 @@ def create_order(request,cart_id):
                          )
         print('------------------------- order_product', order_product)
             #         # Clear the cart
-        cart_items.delete()
+        # cart_items.delete()
+        cart1.delete()
             #  # Generate order number and set it to order.order_number
             #         # You can use any logic to generate the order number
         yr = datetime.date.today().strftime('%y')
@@ -204,7 +225,8 @@ def create_order(request,cart_id):
                  
                  
              }
-        print('context',context)     
+        print('context',context)  
+          
 
     
     payMode = request.POST.get('payment_mode')

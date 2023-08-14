@@ -33,6 +33,7 @@
                         {% endfor %}
                     </div>
                     {% endif %} -->
+                    {% include 'sweetalert.html' %}
                     {% if not cart_items %}
                     <h2>YOUR CART IS EMPTY</h2>
                     <a href="{% url 'shop' %}" class='btn btn-primary'>Continue Shopping</a>
@@ -109,7 +110,7 @@
     <!--================End Cart Area =================-->
 </main>
 
-<script>
+<!-- <script>
     setTimeout(function() {
         document.querySelectorAll('.alert').forEach(function(alert) {
             alert.classList.remove('show');
@@ -119,7 +120,7 @@
             }, 550); // Adjust the duration of the fade-out effect
         });
     }, 5000); // Adjust the delay before the alert disappears
-</script>
+</script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -169,7 +170,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', () => {
         {% if messages %}
         {% for message in messages %}
@@ -182,5 +183,6 @@
         {% endfor %}
         {% endif %}
     });
-</script>
+</script> -->
+
 {% endblock content%}

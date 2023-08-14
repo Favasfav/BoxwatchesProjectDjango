@@ -323,7 +323,7 @@ def editproduct(request, product_id):
         product.is_available = is_available
 
         if image:
-            product.image = image
+            product.img1 = image
 
         product.brand = brand
         product.category = category

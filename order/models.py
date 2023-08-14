@@ -9,12 +9,12 @@ class Payment(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=250, null=True)
     payment_mode = models.CharField(max_length=150)
-    amount_paid = models.CharField(max_length=150 )
+    amount_paid = models.FloatField(max_length=150 )
     status=models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.payment_id
+        return self.payment_mode
     
     
     

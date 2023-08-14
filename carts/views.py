@@ -24,6 +24,7 @@ from django.views.decorators.http import require_POST
 
 
 
+
 @login_required(login_url='login_user')
 def add_cart(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -228,7 +229,8 @@ def checkout(request, cart_id):
         pass
     if total==0:
             return redirect('shop') 
-    print('-----coupon-------',coupon_obj)         
+    print('-----coupon-------',coupon_obj)   
+       
     context = {
         'cart': cart,
         'adresses': adresses,
@@ -236,7 +238,10 @@ def checkout(request, cart_id):
         'tax': tax,
         'cart_items': cart_items,
         'coupon': coupon_obj,
-        'shipping_charge':shipping_charge
+        'shipping_charge':shipping_charge,
+        'user':user,
+        'coupon':coupon_obj,
+        
     }
 
     return render(request, 'user/checkout.html', context)

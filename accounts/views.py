@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+
 from django.views.decorators.cache import cache_control
 from accounts.models import *
 from django.contrib import messages
@@ -114,7 +115,7 @@ def profileorders(request):
      except Order.DoesNotExist:
         messages.error(request, "NO ORDER HISTORY")
         return render(request, 'user/Accounts/userprofile.html')
-@login_required(login_url='login_user')        
+        
 def generate_pdf_report(order_id):
     order = Order.objects.get(id=order_id)
     
@@ -185,7 +186,7 @@ def generate_pdf_report(order_id):
     
     response.write(pdf)
     return response
-@login_required(login_url='login_user')    
+   
 def generate_csv_report(order_id):
     order = Order.objects.get(id=order_id)
     
@@ -528,9 +529,7 @@ def admin_login(request):
 
 @login_required(login_url='login_user')
 def editprofile(request):
-    if not request.user.is_superuser:
-        return redirect('admin_login')
-     
+    
     
     user = request.user
     user_profile = UserProfile.objects.get(id=user.id)

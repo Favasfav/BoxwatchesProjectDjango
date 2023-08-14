@@ -190,8 +190,7 @@ def sales_list(request):
 from reportlab.platypus import Table, TableStyle
 
 def generate_pdf_report(sales_lists):
-    if not request.user.is_superuser:
-        return redirect('admin_login')
+    
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
 
@@ -225,8 +224,7 @@ def generate_pdf_report(sales_lists):
 import csv
 
 def generate_csv_report(sales_lists):
-    if not request.user.is_superuser:
-        return redirect('admin_login')
+   
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="sales_report.csv"'
 
