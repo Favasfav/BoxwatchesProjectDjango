@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 
-
+def custom_404_page(request, exception):
+    return render(request, '404.html', status=404)
 
 def productlist(request):
     if not request.user.is_superuser:
