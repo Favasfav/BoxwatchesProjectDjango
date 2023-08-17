@@ -10,6 +10,10 @@ from django.contrib.auth import authenticate, login, logout
  
 def index(request):
     return render(request,'user/index.html')
+def about(request):
+    return render(request,'user/about.html')   
+def contact(request):
+    return render(request,'user/contact.html')        
 
 
 def shop(request):

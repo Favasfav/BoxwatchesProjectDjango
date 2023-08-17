@@ -60,7 +60,7 @@
                                 <ul id="navigation">  
                                     <li><a href="{% url 'home' %}">Home</a></li>
                                     <li><a href="{% url 'shop' %}">shop</a></li>
-                                    <li><a href="static/user/about.html">about</a></li>
+                                    <li><a href="{% url 'about' %}">about</a></li>
                                     {% comment %} <li class="hot"><a href="#">Latest</a>
                                         <ul class="submenu">
                                             <li><a href="static/user/shop.html"> Product list</a></li>
@@ -78,9 +78,9 @@
                                             <li><a href="#">Login</a></li>
                                             <li><a href="static/user/cart.html">Cart</a></li>
                                             {% comment %} <li><a href="static/user/elements.html">Element</a></li> {% endcomment %}
-                                            <li><a href="static/user/confirmation.html">Confirmation</a></li>
+                                            <!-- <li><a href="static/user/confirmation.html">Confirmation</a></li> -->
                                         </li> 
-                                        <li><a href="static/user/contact.html">Contact</a></li>
+                                        <li><a href="{% url 'contact' %}">Contact</a></li>
                                     </ul>
                                         </ul>
                                     
@@ -89,11 +89,11 @@
                         <!-- Header Right -->
                         <div class="header-right">
                             <ul>
-                                <li>
+                                <!-- <li>
                                     <div class="nav-search search-switch">
                                         <span class="flaticon-search"></span>
                                     </div>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="{% url 'profile' %}">
                                         <span class="flaticon-user"></span>

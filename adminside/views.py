@@ -308,7 +308,7 @@ def orderdetails(request,order_id):
     li=[]
     total1=0
     for order_item in order_items:
-        order_item.sub_total=order_item.sub_total()
+        # order_item.sub_total=order_item.sub_total()
         total=order_item.poduct_price*order_item.quantity
         li.append(total)
         total1+=total
