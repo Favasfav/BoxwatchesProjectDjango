@@ -1,41 +1,148 @@
 {% extends 'user/base.html' %}
 {% block content %}
 
+<style>
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 20vh;
+        /* This ensures the container takes the full viewport height */
+    }
 
-    <main>
-        <!--? slider Area Start -->
-        <div class="slider-area ">
-            <div class="slider-active">
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center slide-bg">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                                <div class="hero__caption">
-                                    <h1 data-animation="fadeInLeft" data-delay=".4s" data-duration="2000ms">Select Your New Perfect Style</h1>
-                                    <p data-animation="fadeInLeft" data-delay=".7s" data-duration="2000ms">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat is aute irure.</p>
-                                    <!-- Hero-btn -->
-                                    <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s" data-duration="2000ms">
-                                        <a href="{% url 'shop' %}" class="btn hero-btn">Shop Now</a>
-                                    </div>
+    .single-popular-items {
+        margin-bottom: 50px;
+        /* Adjust this value to control the spacing between each brand item */
+        text-align: center;
+    }
+
+    .single-popular-items h4 {
+        margin-top: 10px;
+        /* Adjust this value to control the spacing between image and brand name */
+    }
+</style>
+<main>
+    <!--? slider Area Start -->
+    <div class="slider-area ">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center slide-bg">
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                            <div class="hero__caption">
+                                <h1 data-animation="fadeInLeft" data-delay=".4s" data-duration="2000ms">Select Your New
+                                    Perfect Style</h1>
+                                <p data-animation="fadeInLeft" data-delay=".7s" data-duration="2000ms">Ut enim ad minim
+                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat is aute irure.</p>
+                                <!-- Hero-btn -->
+                                <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s"
+                                    data-duration="2000ms">
+                                    <a href="{% url 'shop' %}" class="btn hero-btn">Shop Now</a>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
-                                <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
-                                    <img src="static/user/assets/img/hero/watch.png" alt="" class=" heartbeat">
-                                </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
+                            <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
+                                <img src="static/user/assets/img/hero/watch.png" alt="" class=" heartbeat">
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Single Slider -->
-                
+            </div>
+            <!-- Single Slider -->
+
         </div>
+        <section class="popular-items latest-padding">
+            <h1 class="centered-container">New Products</h1>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                        {% for product in products %}
+                        {% if product.name %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-popular-items mb-50 text-center">
+                                <div class="popular-img">
+                                    <a href="#"><img src="{{ product.img1.url }}" alt=""></a>
+                                    <div class="img-cap">
+                                        <span><a href="{% url 'add_cart' product.id %}" class="add-to-cart-btn">Add to
+                                                Cart</a>
+                                        </span>
+                                    </div>
+                                    <div class="favorit-items">
+                                        <span class="flaticon-heart"></span>
+                                    </div>
+                                </div>
+                                <div class="popular-caption">
+                                    <h3><a href="{% url 'product_details' product.id %}">{{ product.name }}</a></h3>
+                                    <span>{{ product.price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="popular-items latest-padding">
+            <h1 class="centered-container">Top Brands</h1>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                        {% for brand in brands %}
+                        {% if brand.name %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-popular-items mb-50 text-center">
+                                <div class="popular-img">
+                                    <a href="#"><img src="{{ brand.image.url }}" alt=""></a>
+                                </div>
+                                <h4>{{ brand.name }}</h4> <!-- Display the brand name -->
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="popular-items latest-padding">
+            <h1 class="centered-container">Categories</h1>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                        
+
+                        {% for i in categories %}
+                            {% if i.name %}
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                                    <div class="single-popular-items mb-50 text-center">
+                                        <div class="popular-img">
+                                            <a href="#"><img src="/static/user/assets/img/logo/logoBoxwatches.jpg" alt=""></a> <!-- Use i.image for the image source -->
+                                        </div>
+                                        <h4>{{ i.name }}</h4> <!-- Display the category name -->
+                                    </div>
+                                </div>
+                              
+                            {% endif %}
+                        {% endfor %}
+                        
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- slider Area End-->
         <!-- ? New Product Start -->
-        <section class="new-product-area section-padding30">
+        <!-- <section class="new-product-area section-padding30">
             <div class="container">
-                <!-- Section tittle -->
+               
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="section-tittle mb-70">
@@ -65,8 +172,8 @@
                                 <span>$ 45,743</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    </div> -->
+        <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-new-pro mb-30 text-center">
                             <div class="product-img">
                                 <img src="static/user/assets/img/gallery/new_product3.png" alt="">
@@ -79,7 +186,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
         <!--  New Product End -->
         <!--? Gallery Area Start -->
         <div class="gallery-area">
@@ -87,24 +194,30 @@
                 <div class="row">
                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-gallery mb-30">
-                            <div class="gallery-img big-img" style="background-image: url(static/user/assets/img/gallery/gallery1.png);"></div>
+                            <div class="gallery-img big-img"
+                                style="background-image: url(static/user/assets/img/gallery/gallery1.png);"></div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                         <div class="single-gallery mb-30">
-                            <div class="gallery-img big-img" style="background-image: url(static/user/assets/img/gallery/gallery2.png);"></div>
+                            <div class="gallery-img big-img"
+                                style="background-image: url(static/user/assets/img/gallery/gallery2.png);"></div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-12">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
                                 <div class="single-gallery mb-30">
-                                    <div class="gallery-img small-img" style="background-image: url(static/user/assets/img/gallery/gallery3.png);"></div>
+                                    <div class="gallery-img small-img"
+                                        style="background-image: url(static/user/assets/img/gallery/gallery3.png);">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12  col-md-6 col-sm-6">
                                 <div class="single-gallery mb-30">
-                                    <div class="gallery-img small-img" style="background-image: url(static/user/assets/img/gallery/gallery4.png);"></div>
+                                    <div class="gallery-img small-img"
+                                        style="background-image: url(static/user/assets/img/gallery/gallery4.png);">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,184 +228,22 @@
         </div>
         <!-- Gallery Area End -->
         <!--? Popular Items Start -->
-        <div class="popular-items section-padding30">
-            <div class="container">
-                <!-- Section tittle -->
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-8 col-md-10">
-                        <div class="section-tittle mb-70 text-center">
-                            <h2>Popular Items</h2>
-                            <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular1.png" alt="">
-                                <div class="img-cap">
-                                    {% comment %} <span>"{% url 'product_details' product.id %}"</span> {% endcomment %}
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular2.png" alt="">
-                                <div class="img-cap">
-                                    <span>Add to cart</span>
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular3.png" alt="">
-                                <div class="img-cap">
-                                    <span>Add to cart</span>
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular4.png" alt="">
-                                <div class="img-cap">
-                                    <span>Add to cart</span>
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular5.png" alt="">
-                                <div class="img-cap">
-                                    <span>Add to cart</span>
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <img src="static/user/assets/img/gallery/popular6.png" alt="">
-                                <div class="img-cap">
-                                    <span>Add to cart</span>
-                                </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
-                                </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="static/user/product_details.html">Thermo Ball Etip Gloves</a></h3>
-                                <span>$ 45,743</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        
                 <!-- Button -->
                 <div class="row justify-content-center">
                     <div class="room-btn pt-70">
-                        <a href="static/user/catagori.html" class="btn view-btn1">View More Products</a>
+                        <a href="{% url 'shop' %}" class="btn view-btn1">View More Products</a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Popular Items End -->
         <!--? Video Area Start -->
-        <div class="video-area">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-lg-12">
-                    <div class="video-wrap">
-                        <div class="play-btn "><a class="popup-video" href="https://www.youtube.com/watch?v=KMc6DyEJp04"><i class="fas fa-play"></i></a></div>
-                    </div>
-                    </div>
-                </div>
-                <!-- Arrow -->
-                <div class="thumb-content-box">
-                    <div class="thumb-content">
-                        <h3>Next Video</h3>
-                        <a href="#"> <i class="flaticon-arrow"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Video Area End -->
         <!--? Watch Choice  Start-->
-        <div class="watch-area section-padding30">
-            <div class="container">
-                <div class="row align-items-center justify-content-between padding-130">
-                    <div class="col-lg-5 col-md-6">
-                        <div class="watch-details mb-40">
-                            <h2>Watch of Choice</h2>
-                            <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
-                            <a href="shop.html" class="btn">Show Watches</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-10">
-                        <div class="choice-watch-img mb-40">
-                            <img src="static/user/assets/img/gallery/choce_watch1.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-lg-6 col-md-6 col-sm-10">
-                        <div class="choice-watch-img mb-40">
-                            <img src="static/user/assets/img/gallery/choce_watch2.png" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-6">
-                        <div class="watch-details mb-40">
-                            <h2>Watch of Choice</h2>
-                            <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
-                            <a href="static/user/shop.html" class="btn">Show Watches</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Watch Choice  End-->
         <!--? Shop Method Start-->
-     
+
         {% endblock %}

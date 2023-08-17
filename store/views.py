@@ -9,7 +9,22 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
  
 def index(request):
-    return render(request,'user/index.html')
+    products = Product.objects.all().order_by('-created_at')[:6] 
+    print('Request GET parameters:', request.GET)
+    categories = Category.objects.all()
+    brands = Brand.objects.all()
+    print('-----categories----',categories)
+    sort_by = request.GET.get('sort')
+    print('Sort by:', sort_by)
+    selected_category_id = request.GET.get('category')
+    selected_brand_id = request.GET.get('brand')   # Get the selected category ID
+    # li=["static/user/assets/img/gallery/1828KM02_1.webp","static/user/assets/img/gallery/5303R_001_11@2x.jpg","static/user/assets/img/gallery/2652NM01_1 (1).webp"]
+    
+    
+    
+    return render(request,'user/index.html',{'products':products,'categories':categories,'brands':brands})
+
+    
 def about(request):
     return render(request,'user/about.html')   
 def contact(request):
