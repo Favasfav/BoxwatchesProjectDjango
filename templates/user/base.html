@@ -125,15 +125,29 @@
                             </ul>
                         </div>
                         
+                        
                     <!-- Mobile Menu -->
                     <div class="col-12">
                         <div class="mobile_menu d-block d-lg-none"></div>
                     </div>
+                    <div class="col-12">
+                            
+                                <nav>
+                                    <ul class="mobile-menu"  style="display: none;">
+                                        <li><a href="{% url 'home' %}">Home</a></li>
+                                        <li><a href="{% url 'shop' %}">shop</a></li>
+                                        <li><a href="{% url 'about' %}">about</a></li>
+                                    </ul>
+                                  </nav>
+                            
+                        </div>
                 </div>
             </div>
         </div>
         </div>
         </header>
+        <br>
+                        <br>
         {% block content %}
         {% endblock %}
        
@@ -268,7 +282,7 @@
 
 
 <!-- Add the Slicknav JS file -->
-     <script src="/path/to/slicknav.min.js"></script>
+     <script src="/static/user/assets/js/jquery.slicknav.min.js"></script>
       <!-- SweetAlert JavaScript CDN link -->
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 
@@ -283,6 +297,22 @@
     {% endblock script %}
    {% comment %} Razorpay checkout {% endcomment %}
    <script src="/static/user/assets/js/checkout.js"></script>
-    
+    <style>
+        /* Add your existing CSS here */
+
+/* Add a class to target the hidden element */
+.hidden-menu {
+  display: none;
+}
+
+/* Apply styles when hovering over the parent element */
+.mobile-menu:hover .hidden-menu {
+  display: block; /* Display the hidden menu on hover */
+  position: absolute;
+  background-color: #fff;
+  /* Add more styles as needed */
+}
+
+    </style>
 </body>
 </html>

@@ -349,3 +349,4 @@ def deleteproduct(request,name):
         return redirect('productlist')
     except Product.DoesNotExist:
         return redirect('productlist')
+        

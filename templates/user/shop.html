@@ -69,136 +69,85 @@
     </div>
     <!-- Hero Area End-->
     <!-- Latest Products Start -->
-    
-    
     <section class="popular-items latest-padding">
         <div class="container">
             <div class="row product-btn justify-content-between mb-40">
-                <!-- <div class="properties__button">
-                    <!--Nav Button  -->
-                    
-                    <!-- <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=price_high_to_low">Price
-                        high to low</a>
-                    <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=low_to_high">Price
-                        low to high</a>
-                    <a class="genric-btn info-border radius" href="{% url 'shop' %}?sort=below_5000 ">Price
-                        Below 5000</a>
-
-                    <!-- <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="{% url 'home' %}" role="tab" aria-controls="nav-home" aria-selected="true">Newest Arrivals</a>
-                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="{% url 'shop' %}?sort=price_high_to_low" role="tab" aria-controls="nav-profile" aria-selected="false">Price high to low</a>
-                                
-                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="{% url 'shop' %}?sort=most_popular" role="tab" aria-controls="nav-contact" aria-selected="false">Most popular</a> -->
-                <!-- </div> --> 
                 <div class="dropdown">
                     <button class="dropdown-btn">
-                      <span>Sort By</span>
-                      <span class="arrow"></span>
+                        <span>Sort By</span>
+                        <span class="arrow"></span>
                     </button>
                     <ul class="dropdown-content">
-                      <li><a  href="{% url 'shop' %}?sort=price_high_to_low">Price
-                        high to low</a></li>
-                      <li><a href="{% url 'shop' %}?sort=low_to_high">Price
-                        low to high</a></li>
-                      <li><a href="{% url 'shop' %}?sort=below_5000 ">Price
-                        Below 5000</a></li>
-                      <li><a href="#">Svelte</a></li>
+                        <li><a href="{% url 'shop' %}?sort=price_high_to_low">Price high to low</a></li>
+                        <li><a href="{% url 'shop' %}?sort=low_to_high">Price low to high</a></li>
+                        <li><a href="{% url 'shop' %}?sort=below_5000">Price Below 5000</a></li>
                     </ul>
-                  </div>
+                </div>
+                <br>
                 <div class="custom-select-container">
-                    <form action="{% url 'shop' %}" ,method="get">
+                    <form action="{% url 'shop' %}" method="get">
                         <label for="select1" class="custom-select-label">Category:</label>
                         <select class="dropdown-content1" name="category" id="select1">
-                            <option  >Select a category</option>
+                            <option>Select a category</option>
                             {% for category in categories %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            <option value="{{ category.id }}">{{ category.name }}</option>
                             {% endfor %}
                         </select>
-                        <label for="select1" class="custom-select-label">Brand:</label>
-                        <select name="brand" class="dropdown-content1" id="select1">
+                        <div> </div>
+                        <label for="select2" class="custom-select-label">Brand:</label>
+                        <select name="brand" class="dropdown-content1" id="select2">
                             <option value="">Select a Brand</option>
                             {% for brand in brands %}
-                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                            <option value="{{ brand.id }}">{{ brand.name }}</option>
                             {% endfor %}
                         </select>
+                        <div> </div>
                         <button class="dropdown-btn" type="submit">Filter</button>
                     </form>
-                    
                 </div>
-                <!-- <div class="custom-select-container">
-                    <form action="{% url 'shop' %}" method="get">
-                        <label for="select1" class="custom-select-label">Brand:</label>
-                        <select name="category" id="select1">
-                            <option value="">Select a Brand</option>
-                            {% for brand in brands %}
-                                <option value="{{ brand.id }}">{{ brand.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit">Filter</button>
-                    </form>
-                    
-                </div> -->
-
-                </nav>
-                <!--End Nav Button  -->
             </div>
-            <!-- Grid and List view -->
-            <div class="grid-list-view">
-            </div>
-            <!-- Select items -->
-
-        </div>
-        <!-- Nav Card -->
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="row">
-                    {% for product in products %}
-                    {% if product.name %}
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-popular-items mb-50 text-center">
-                            <div class="popular-img">
-                                <a href="#"><img src="{{ product.img1.url }}" alt=""></a>
-                                <div class="img-cap">
-                                    <span><a href="{% url 'add_cart' product.id %}" class="add-to-cart-btn">Add to
-                                            Cart</a>
-                                    </span>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                        {% for product in products %}
+                        {% if product.name %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-popular-items mb-50 text-center">
+                                <div class="popular-img">
+                                    <a href="#"><img src="{{ product.img1.url }}" alt=""></a>
+                                    <div class="img-cap">
+                                        <span><a href="{% url 'add_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a></span>
+                                    </div>
+                                    <div class="favorit-items">
+                                        <span class="flaticon-heart"></span>
+                                    </div>
                                 </div>
-                                <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
+                                <div class="popular-caption">
+                                    <h3><a href="{% url 'product_details' product.id %}">{{ product.name }}</a></h3>
+                                    <span>{{ product.price }}</span>
                                 </div>
-                            </div>
-                            <div class="popular-caption">
-                                <h3><a href="{% url 'product_details' product.id %}">{{ product.name }}</a></h3>
-                                <span>{{ product.price }}</span>
                             </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
-
                 </div>
             </div>
-        </div>
-
-
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-            {%endif%}
-
-
-        <!-- Card two -->
-
-        </div>
-        </div>
-        <!-- End Nav Card -->
+            {% endif %}
         </div>
     </section>
-    <!-- Latest Products End -->
-    <!--? Shop Method Start-->
+    
+    
+    
+     
     <div class="shop-method-area">
         <div class="container">
             <div class="method-wrapper">

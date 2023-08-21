@@ -63,7 +63,7 @@ def product_details(request,product_id):
     products = Product.objects.get(id=product_id)
     
     return render(request,'user/product_details.html',{'product':products})
-    
+
 
     
 

@@ -2,6 +2,14 @@
 {% block content %}
 
 <style>
+    .transparent-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: black;
+  /* Add any other styles you need for the button */
+}
+
     .centered-container {
         display: flex;
         justify-content: center;
@@ -122,9 +130,12 @@
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                     <div class="single-popular-items mb-50 text-center">
                                         <div class="popular-img">
-                                            <a href="#"><img src="/static/user/assets/img/logo/logoBoxwatches.jpg" alt=""></a> <!-- Use i.image for the image source -->
+                                           <img src="/static/user/assets/img/logo/logoBoxwatches.jpg" alt=""> <!-- Use i.image for the image source -->
                                         </div>
-                                        <h4>{{ i.name }}</h4> <!-- Display the category name -->
+                                        
+                                        <a class="transparent-button" href="#">
+                                            <h4>{{ i.name }}</h4>
+                                          </a>
                                     </div>
                                 </div>
                               
