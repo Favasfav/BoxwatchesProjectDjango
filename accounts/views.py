@@ -116,7 +116,7 @@ def profileorders(request):
         messages.error(request, "NO ORDER HISTORY")
         return render(request, 'user/Accounts/userprofile.html')
         
-def generate_pdf_report(order_id):
+def generate_pdf_report(order_id,coupon_discount):
     order = Order.objects.get(id=order_id)
     
     response = HttpResponse(content_type='application/pdf')
@@ -187,7 +187,7 @@ def generate_pdf_report(order_id):
     response.write(pdf)
     return response
    
-def generate_csv_report(order_id):
+def generate_csv_report(order_id,coupon_discount):
     order = Order.objects.get(id=order_id)
     
     response = HttpResponse(content_type='text/csv')
@@ -285,9 +285,10 @@ def orderdetail(request,order_id):
            print("-----pdf--",report_type)
            if report_type == 'pdf':
              
-              return generate_pdf_report( order_id)
+               return generate_pdf_report(order_id, coupon_discount)
+
            elif report_type == 'csv':
-              return generate_csv_report( order_id)
+              return generate_csv_report( order_id,coupon_discount)
 
         context = {
             'user': user,
