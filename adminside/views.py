@@ -47,6 +47,7 @@ def dashbord(request):
     this_month_start = today.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     total_revenue_thismonth = Order.objects.filter(created_at__gte=this_month_start,status='Accepted').aggregate(
         total_revenue_month=Sum('total_price'))['total_revenue_month'] or 0
+        
       
     
     today = timezone.now()

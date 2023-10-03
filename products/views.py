@@ -12,7 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
 
 def custom_404_page(request, exception):
-    return render(request, 'user/404.html', status=404)
+    print("gggggggggggggggggggg")
+    return render(request, '404.html', status=404)
 
 def productlist(request):
     if not request.user.is_superuser:
@@ -48,20 +49,7 @@ from io import BytesIO
 import base64
 import io
 
-# def decode_cropped_img_data(cropped_img_data):
-#     # Decode the base64 encoded string
-#     binary_data = base64.b64decode(cropped_img_data)
 
-#     # Convert the binary data to a PIL Image object
-#     img1 = Image.open(io.BytesIO(binary_data))
-
-#     return img1
-# def decode_and_save_image(cropped_data, filename):
-#     if cropped_data:
-#         img_data = base64.b64decode(cropped_data)
-#         img_file = ContentFile(img_data, name=filename)
-#         return img_file
-#     return None
 import base64
 from PIL import Image
 from io import BytesIO
@@ -77,7 +65,7 @@ def decode_cropped_img_data(cropped_img_data, save_path='path_to_save'):
     image = Image.open(BytesIO(decoded_image_data))
 
     # Define the save path for the image
-    count=5
+    count=13
     #    image_filename = 'products/cropped_img{i}.jpg'
     image_filename = f'media/products/cropped_image{count}.jpg'
     count+=1
