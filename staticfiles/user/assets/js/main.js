@@ -8,7 +8,11 @@
         'overflow': 'visible'
       });
     });
-
+    $(document).ready(function() {
+      // Assuming you have a menu element with the class 'menu'
+      $('.menu').slicknav();
+    });
+    
 
 /* 2. slick Nav */
 // mobile_menu
