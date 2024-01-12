@@ -53,7 +53,7 @@ import io
 import base64
 from PIL import Image
 from io import BytesIO
-
+import time
 def decode_cropped_img_data(cropped_img_data, save_path='path_to_save'):
     # Remove the data:image/jpeg;base64 prefix
     image_data = cropped_img_data.split(',')[1]
@@ -65,18 +65,24 @@ def decode_cropped_img_data(cropped_img_data, save_path='path_to_save'):
     image = Image.open(BytesIO(decoded_image_data))
 
     # Define the save path for the image
-    count=13
-    #    image_filename = 'products/cropped_img{i}.jpg'
-    image_filename = f'media/products/cropped_image{count}.jpg'
-    count+=1
-    # Rest of your code using the image_filename...
+    # count=13
+    # #    image_filename = 'products/cropped_img{i}.jpg'
+    # image_filename = f'media/products/cropped_image{count}.jpg'
+    # count+=1
+    # # Rest of your code using the image_filename...
 
-    
+   
+
+# Get the current timestamp as a string
+    current_timestamp = str(int(time.time()))
+
+# Construct the image filename with the current timestamp
+    image_filename = f'media/products/cropped_image{current_timestamp}.jpg'
+
     # Save the image as JPEG
     image.save(image_filename, format='JPEG')
 
     return image_filename
-
 from django.core.files import File
 def addproduct(request):
     if not request.user.is_superuser:
@@ -94,7 +100,7 @@ def addproduct(request):
         price = request.POST['price']
         cropped_img1_data = request.POST.get('cropped_img1', '')
        
-        print('-----cropped_img1_data-----',cropped_img1_data)
+        
 
         
         # print('-----img1-----',img1)

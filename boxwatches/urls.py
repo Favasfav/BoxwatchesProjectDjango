@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.defaults import page_not_found
 
+
 urlpatterns = [
     path('', include('adminside.urls')),
     path('admin/',admin.site.urls),
