@@ -179,10 +179,10 @@ def addbrand(request):
         description = request.POST['description']
         created_at=request.POST['created_at']
         image=request.FILES['image']
-        
+        print(image,"image--------------------------")
         brand = Brand(
             name=name,
-            description=description,
+            description=description, 
             image=image,
             created_at=created_at,
             
